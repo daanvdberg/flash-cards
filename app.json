@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "UdaciCards",
-    "slug": "udaci-cards",
+    "name": "MobileFlashcards",
+    "slug": "mobile-flashcards",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
