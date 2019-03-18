@@ -11,8 +11,8 @@ export function clearLocalNotification () {
 
 function createNotification () {
 	return {
-		title: 'Log your stats!',
-		body: '👋 don\'t forget to log your stats for today!',
+		title: 'Your Flash Cards miss you!',
+		body: '👋You haven\'t quizzed yourself today yet!',
 		android: {
 			sound: true,
 			priority: 'high',
