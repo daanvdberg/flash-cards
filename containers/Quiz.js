@@ -21,7 +21,7 @@ class Quiz extends Component {
 		showResult: false
 	};
 
-	answerQuestion = (isCorrect) => () => {
+	answerQuestion = (isCorrect) => (event) => { // double function to to bind
 		// update "correctAnswers" counter
 		if (isCorrect === true) {
 			this.setState( (state) => ({ correctAnswers: state.correctAnswers + 1 }) );
@@ -30,7 +30,7 @@ class Quiz extends Component {
 		// go to next question
 		if (this.state.currentQuestion === (this.props.deck.questions.length - 1)) {
 			clearLocalNotification()
-				.then(setLocalNotification);
+				.then( setLocalNotification );
 			this.setState( () => ({ showResult: true }) );
 		} else {
 			this.setState( (state) => ({ currentQuestion: state.currentQuestion + 1 }) );
@@ -48,22 +48,23 @@ class Quiz extends Component {
 
 	render () {
 		const { currentQuestion, correctAnswers, showResult } = this.state;
-		const { deck } = this.props;
+		const { deck, navigation } = this.props;
+		const { questions } = deck;
+		const deckID = navigation.getParam( 'deckID' );
 		return (
 			<Container style={ styles.container }>
 				{ (showResult === true) ? (
 					<View>
 						<Text style={ { fontSize: 24, marginBottom: 10, textAlign: 'center' } }>Results</Text>
 						<Text style={ { fontSize: 18, textAlign: 'center' } }>
-							You have <Text
-							style={ { fontWeight: '600' } }>{ correctAnswers }</Text> correct { correctAnswers === 1 ? 'answer' : 'answers' },
+							You have <Text style={ { fontWeight: '600' } }>{ correctAnswers }</Text> correct { correctAnswers === 1 ? 'answer' : 'answers' },
 						</Text>
 						<Text style={ { fontSize: 18, textAlign: 'center' } }>
 							for a score of:
 						</Text>
 						<View style={ styles.score }>
 							<Text style={ { color: 'white', fontSize: 24, fontWeight: '600' } }>
-								{ ((correctAnswers / deck.questions.length) * 100).toFixed( 2 ) }%
+								{ ((correctAnswers / questions.length) * 100).toFixed( 2 ) }%
 							</Text>
 						</View>
 					</View>
@@ -76,18 +77,18 @@ class Quiz extends Component {
 							<TouchableOpacity style={ styles.card } activeOpacity={ 1 }
 							                  onPress={ () => this.card.flip() }>
 								<Text style={ styles.cardText }>
-									{ deck.questions[currentQuestion].question }
+									{ questions[currentQuestion].question }
 								</Text>
 							</TouchableOpacity>
 							<TouchableOpacity style={ [styles.card, styles.answer] } activeOpacity={ 1 }
 							                  onPress={ () => this.card.flip() }>
 								<Text style={ [styles.cardText, styles.answerText] }>
-									{ deck.questions[currentQuestion].answer }
+									{ questions[currentQuestion].answer }
 								</Text>
 							</TouchableOpacity>
 						</CardFlip>
 						<Text style={ { fontSize: 16, marginTop: 30 } }>
-							{currentQuestion} out of {deck.questions.length} questions answered.
+							{ currentQuestion } out of { questions.length } questions answered.
 						</Text>
 					</Fragment>
 				) }
@@ -106,9 +107,9 @@ class Quiz extends Component {
 							dark
 							full
 							style={ { marginTop: 20 } }
-							onPress={ () => this.props.navigation.navigate( 'DeckView' ) }
+							onPress={ () => navigation.navigate( 'Deck', { deckID: deckID, deckTitle: deck.title } ) }
 						>
-							<Text>Back to Decks</Text>
+							<Text>Back to Deck</Text>
 						</Button>
 					</View>
 				) : (

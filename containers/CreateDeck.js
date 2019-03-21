@@ -18,7 +18,6 @@ class CreateDeck extends Component {
 		const { deckTitle } = this.state;
 		this.props.dispatch( saveDeck( deckTitle ) );
 		const key = deckTitle.trim().replace( /\s+/g, '' );
-		console.log(111);
 		this.props.navigation.navigate( 'Deck', { deckID: key, deckTitle: deckTitle } );
 	};
 

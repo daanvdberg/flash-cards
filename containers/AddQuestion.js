@@ -15,6 +15,8 @@ class AddQuestion extends Component {
 		back: ''
 	};
 
+	handleChangeText = (side) => (input) => this.setState( () => ({ [side]: input }));
+
 	addQuestion = () => {
 		const { navigation, dispatch } = this.props;
 		const title = navigation.getParam( 'deckID' );
@@ -34,14 +36,14 @@ class AddQuestion extends Component {
 						<Item floatingLabel>
 							<Label>Question</Label>
 							<Input
-								onChangeText={ (text) => this.setState( () => ({ front: text }) ) }
+								onChangeText={ this.handleChangeText('front') }
 								value={ front }
 							/>
 						</Item>
 						<Item floatingLabel last>
 							<Label>Answer</Label>
 							<Input
-								onChangeText={ (text) => this.setState( () => ({ back: text }) ) }
+								onChangeText={ this.handleChangeText('back') }
 								value={ back }
 							/>
 						</Item>
